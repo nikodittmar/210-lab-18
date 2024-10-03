@@ -5,6 +5,16 @@
 
 using namespace std;
 
+struct Node {
+    double rating;
+    string review;
+    Node * next;
+};
+
+Node* addFront(Node*, Node*);
+Node* addBack(Node*, Node*);
+void printList(Node*);
+
 class Movie {
 private:
     string title;
@@ -25,16 +35,6 @@ public:
     }
 };
 
-struct Node {
-    double rating;
-    string review;
-    Node * next;
-};
-
-Node* addFront(Node*, Node*);
-Node* addBack(Node*, Node*);
-void printList(Node*);
-
 int main() {
 
     ifstream inputFile("lab18.txt");
@@ -47,7 +47,7 @@ int main() {
 
     random_device rd;
     mt19937 gen(rd());
-    uniform_int_distribution<double> randomRating(1.0, 5.0);
+    uniform_real_distribution<double> randomRating(1.0,5.0);
 
     vector<Movie> movies;
 
@@ -60,7 +60,8 @@ int main() {
         while(getline(inputFile, line) && line != "") {
             Node* current = new Node;
             current->review = line;
-            current->rating = randomRating(gen);
+            double rating = round(randomRating(gen) * 10) / 10.0;
+            current->rating = rating;
             movie.addReview(current);
         }
 
