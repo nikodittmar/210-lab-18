@@ -46,13 +46,14 @@ int main() {
 
         string addMore;
         cout << "Enter another review? Y/N: ";
+        cin >> addMore;
         
         if (addMore == "y" || addMore == "Y") {
             addingReviews = true;
         } else if (addMore == "n" || addMore == "N") {
             addingReviews = false;
         } else {
-            cout << "ERROR, " << current->rating << " is not within the range [0,5]!" << endl;
+            cout << "ERROR, " << addMore << " is not Y or N!" << endl;
             return 1;
         }
 
@@ -67,6 +68,9 @@ int main() {
         }
     }
 
+    cout << "Outputting all reviews:" << endl;
+
+    printList(head);
 
     return 0;
 }
@@ -93,6 +97,23 @@ Node* addBack(Node* head, Node* toAdd) {
     current->next = toAdd;
 
     return head;
+}
+
+void printList(Node* head) {
+    Node* current = head;
+    int count = 1;
+    double totalRating = 0;
+
+    while (current) {
+        cout << "   > Review #" << count << ": " << current->rating << ": " << current->review << endl;
+        totalRating += current->rating;
+        current = current -> next;
+        count++;
+    }
+
+    totalRating = totalRating / count;
+
+    cout << "   > Average: " << totalRating << endl;
 }
 
 
