@@ -14,7 +14,59 @@ Node* addBack(Node*, Node*);
 
 int main() {
 
-    cout << "Hello 210";
+    cout << "Which linked list method should we use?" << endl;
+    cout << "   [1] New nodes are added at the head of the linked list" << endl;
+    cout << "   [2] New nodes are added at the tail of the linked list" << endl;
+
+    int mode;
+    cout << "   Choice: ";
+    cin >> mode;
+
+    if (mode != 1 || mode != 2) {
+        cout << "ERROR, " << mode << " is not a valid method!" << endl;
+        return 1;
+    }
+
+    Node* head = nullptr;
+
+    bool addingReviews = true;
+
+    while(addingReviews) {
+        Node* current = new Node;
+        cout << "Enter review rating 0-5: ";
+        cin >> current->rating;
+
+        if (current->rating < 0 || current->rating > 5) {
+            cout << "ERROR, " << current->rating << " is not within the range [0,5]!" << endl;
+            return 1;
+        }
+
+        cout << "Enter review comments: " ;
+        getline(cin, current->review);
+
+        string addMore;
+        cout << "Enter another review? Y/N: ";
+        
+        if (addMore == "y" || addMore == "Y") {
+            addingReviews = true;
+        } else if (addMore == "n" || addMore == "N") {
+            addingReviews = false;
+        } else {
+            cout << "ERROR, " << current->rating << " is not within the range [0,5]!" << endl;
+            return 1;
+        }
+
+        if (head) {
+            if (mode == 1) {
+                head = addFront(head, current);
+            } else {
+                head = addBack(head, current);
+            }
+        } else {
+            head = current;
+        }
+    }
+
 
     return 0;
 }
