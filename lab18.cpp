@@ -1,4 +1,6 @@
-// COMSC-210 | Lab 18 | Niko Dittmar
+// COMSC-210 | Lab 19 | Niko Dittmar
+#include <fstream>
+#include <random>
 #include <iostream>
 
 using namespace std;
@@ -35,64 +37,41 @@ void printList(Node*);
 
 int main() {
 
-    cout << "Which linked list method should we use?" << endl;
-    cout << "   [1] New nodes are added at the head of the linked list" << endl;
-    cout << "   [2] New nodes are added at the tail of the linked list" << endl;
+    ifstream inputFile("lab18.txt");
 
-    int mode;
-    cout << "   Choice: ";
-    cin >> mode;
-
-    if (mode != 1 && mode != 2) {
-        cout << "ERROR, " << mode << " is not a valid method!" << endl;
+    // Make sure it was opened
+    if (!inputFile.is_open()) {
+        cout << "We ran into an error opening your file! Please try again.";
         return 1;
     }
 
-    Node* head = nullptr;
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<double> randomRating(1.0, 5.0);
 
-    bool addingReviews = true;
+    vector<Movie> movies;
 
-    while(addingReviews) {
-        Node* current = new Node;
-        cout << "Enter review rating 0-5: ";
-        cin >> current->rating;
+    string line;
 
-        if (current->rating < 0 || current->rating > 5) {
-            cout << "ERROR, " << current->rating << " is not within the range [0,5]!" << endl;
-            return 1;
-        }
+    while(getline(inputFile, line)) {
+        Movie movie(line);
 
-        cout << "Enter review comments: " ;
-        cin.ignore();
-        getline(cin, current->review);
-
-        string addMore;
-        cout << "Enter another review? Y/N: ";
-        cin >> addMore;
         
-        if (addMore == "y" || addMore == "Y") {
-            addingReviews = true;
-        } else if (addMore == "n" || addMore == "N") {
-            addingReviews = false;
-        } else {
-            cout << "ERROR, " << addMore << " is not Y or N!" << endl;
-            return 1;
+        while(getline(inputFile, line) && line != "") {
+            Node* current = new Node;
+            current->review = line;
+            current->rating = randomRating(gen);
+            movie.addReview(current);
         }
 
-        if (head) {
-            if (mode == 1) {
-                head = addFront(head, current);
-            } else {
-                head = addBack(head, current);
-            }
-        } else {
-            head = current;
-        }
+        movies.push_back(movie);
     }
 
-    cout << "Outputting all reviews:" << endl;
+    cout << "Movies:" << endl;
 
-    printList(head);
+    for (int i = 0; i < movies.size(); i++) {
+        movies[i].printMovie();
+    }
 
     return 0;
 }
