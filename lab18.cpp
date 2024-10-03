@@ -11,6 +11,7 @@ struct Node {
 
 Node* addFront(Node*, Node*);
 Node* addBack(Node*, Node*);
+void printList(Node*);
 
 int main() {
 
@@ -22,7 +23,7 @@ int main() {
     cout << "   Choice: ";
     cin >> mode;
 
-    if (mode != 1 || mode != 2) {
+    if (mode != 1 && mode != 2) {
         cout << "ERROR, " << mode << " is not a valid method!" << endl;
         return 1;
     }
@@ -42,6 +43,7 @@ int main() {
         }
 
         cout << "Enter review comments: " ;
+        cin.ignore();
         getline(cin, current->review);
 
         string addMore;
@@ -111,9 +113,9 @@ void printList(Node* head) {
         count++;
     }
 
-    totalRating = totalRating / count;
+    totalRating = totalRating / (count - 1);
 
-    cout << "   > Average: " << totalRating << endl;
+    cout << "   > Average: " << totalRating << " " << endl;
 }
 
 
