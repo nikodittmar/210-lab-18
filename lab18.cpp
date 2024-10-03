@@ -3,6 +3,26 @@
 
 using namespace std;
 
+class Movie {
+private:
+    string title;
+    Node* reviews;
+public:
+    Movie(string t) {
+        title = t;
+        reviews = nullptr;
+    }
+
+    void addReview(Node* review) {
+        reviews = addFront(reviews, review);
+    }
+
+    void printMovie() {
+        cout << title << endl;
+        printList(reviews);
+    }
+};
+
 struct Node {
     double rating;
     string review;
