@@ -101,6 +101,9 @@ Node* addBack(Node* head, Node* toAdd) {
     return head;
 }
 
+// printList() prints a linked list.
+// arguments: head - a pointer to the head of the linked list
+// returns: none.
 void printList(Node* head) {
     Node* current = head;
     int count = 1;
